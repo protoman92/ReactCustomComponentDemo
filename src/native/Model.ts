@@ -1,7 +1,10 @@
 import { Data } from 'react-base-utilities-js';
 
 export namespace Input {
-  export function allValues(): Data.Input.Type[] {
+  export let title = 'Input';
+  export let confirmTitle = 'Confirm all inputs';
+
+  export function allInputs(): Data.Input.Type[] {
     return [email, password];
   }
 
