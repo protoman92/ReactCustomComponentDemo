@@ -1,4 +1,4 @@
-# ReactInputComponentDemo
+# ReactCustomComponentDemo
 
 Demo for some custom React (Web/Native) components that I wrote/am writing. They are:
 
