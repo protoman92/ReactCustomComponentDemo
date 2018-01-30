@@ -73,7 +73,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "dist/src/native/index"
+    entryFile: "dist/src/native/index.js"
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.reactinputcomponentdemo"
+        applicationId "com.reactcustomcomponentdemo"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

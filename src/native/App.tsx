@@ -1,113 +1,45 @@
-import { Subscription } from 'rxjs';
 import * as React from 'react';
-import { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Try } from 'javascriptutilities';
-import { InputCell, InputForm, InputList } from 'react-basic-input-components';
+import { Component as BaseComponent } from 'react';
+import { NavigationScreenProp } from 'react-navigation';
+import { StateType } from 'type-safe-state-js';
 import { Properties, Provider, Style } from './Dependency';
-import * as Model from './Model';
+import * as Home from './Home';
+import * as Navigator from './Navigator';
 
-export class App extends Component<any> {
-  private readonly provider: Provider.Type;
-  private readonly properties: Properties.Type;
-  private readonly style: Style.Type;
-  private readonly subscription: Subscription;
-
-  public constructor(props: any) {
-    super(props);
-
-    /// Initialize all dependencies here. This is a wrapper component anyway.
-    this.provider = new Provider.Self();
-    this.properties = new Properties.Self();
-    this.style = new Style.Self();
-    this.subscription = new Subscription();
+export namespace Component {
+  export namespace Props {
+    export interface Type {
+      navigation: NavigationScreenProp<StateType<any>, any>;
+    }
   }
 
-  public componentWillMount(): void {}
+  export class Self extends BaseComponent<Props.Type, {}> {
+    private readonly navigator: Navigator.Type;
+    private readonly properties: Properties.Type;
+    private readonly provider: Provider.Type;
+    private readonly style: Style.Type;
 
-  public createInputComponents = (): JSX.Element[] => {
-    let provider = this.provider;
-    let properties = this.properties;
-    let style = this.style;
-    let inputs = Model.Input.allInputs();
+    public constructor(props: Props.Type) {
+      super(props);
 
-    return Try.success(inputs)
-      .map(v => v.map(v1 => {
-        let model = new InputCell.Dispatch.Model.Self(provider, v1);
-        return new InputCell.Base.ViewModel.Self(provider, model);
-      }))
-      .map(v => v.map(v1 => ({
-        key: v1.inputItem.id,
-        viewModel: v1,
-        properties,
-        style,
-      })))
-      .map(v => v.map(v1 => <InputCell.Native.Component.Self {...v1}/>))
-      .getOrElse([]);
-  }
+      /// No DI here because of RN's AppRegistry, and the fact that this is a
+      /// wrapper component anyway.
+      this.navigator = new Navigator.Self(props.navigation);
+      this.properties = new Properties.Self();
+      this.provider = new Provider.Self();
+      this.style = new Style.Self();
+    }
 
-  public createInputList = (): JSX.Element => {
-    let provider = this.provider;
-    let inputs = Model.Input.allInputs();
-    let model = new InputList.Dispatch.Model.Self(provider, inputs);
-    let vm = new InputList.Base.ViewModel.Self(provider, model);
+    public render(): JSX.Element {
+      let vm = new Home.ViewModel.Self(this.provider, this.navigator);
 
-    let props = {
-      viewModel: vm,
-      properties: this.properties,
-      style: this.style,
-    };
+      let homeProps: Home.Component.Props.Type = {
+        viewModel: vm,
+        style: this.style,
+        properties: this.properties,
+      };
 
-    return <InputList.Native.Component.Self {...props}/>;
-  }
-
-  public createInputForm = (): JSX.Element => {
-    let provider = this.provider;
-    let header = Model.Input;
-    let model = new InputForm.Dispatch.Model.Self(provider, header);
-    let vm = new InputForm.Base.ViewModel.Self(provider, model);
-
-    let props = {
-      viewModel: vm,
-      properties: this.properties,
-      style: this.style,
-    };
-
-    this.bindInputConfirmation(vm);
-    return <InputForm.Native.Component.Self {...props}/>;
-  }
-
-  private bindInputConfirmation = (vm: InputForm.Base.ViewModel.Type): void => {
-    vm.confirmStream()
-      .logNext(() => 'Received confirm signal')
-      .subscribe()
-      .toBeDisposedBy(this.subscription);
-  }
-
-  public render(): JSX.Element {
-    return (<View style={styles.container}>{this.createInputForm()}</View>);
+      return <Home.Component.Self {...homeProps}/>;
+    }
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  textInput: {
-    textAlign: 'center',
-    height: 45,
-  },
-});

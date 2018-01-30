@@ -1,5 +1,5 @@
 {
-  "name": "react-input-component-demo",
+  "name": "react-custom-component-demo",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@types/react-native": "0.52.5",
+    "@types/react-navigation": "^1.0.30",
     "react-base-utilities-js": "^1.0.0",
     "react-basic-input-components": "^1.0.0",
-    "react-native": "0.52.2"
+    "react-native": "0.52.2",
+    "react-navigation": "^1.0.0-beta.27"
   },
   "devDependencies": {
     "@types/jest": "22.1.0",

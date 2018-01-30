@@ -1,4 +1,12 @@
 import { AppRegistry } from 'react-native';
-import { App } from './App';
+import { StackNavigator } from 'react-navigation';
+import * as App from './App';
+import * as Input from './Input';
+import * as Screen from './Screen';
 
-AppRegistry.registerComponent('ReactInputComponentDemo', () => App);
+let app = StackNavigator({
+  [Screen.HOME.id]: { screen: App.Component.Self },
+  [Screen.INPUT.id]: { screen: Input.Component.Self },
+});
+
+AppRegistry.registerComponent('ReactCustomComponentDemo', () => app);

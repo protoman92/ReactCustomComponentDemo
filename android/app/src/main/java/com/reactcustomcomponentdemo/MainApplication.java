@@ -1,4 +1,4 @@
-package com.reactinputcomponentdemo;
+package com.reactcustomcomponentdemo;
 
 import android.app.Application;
 
