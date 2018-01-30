@@ -4,17 +4,19 @@ import { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Try } from 'javascriptutilities';
 import { InputCell, InputForm, InputList } from './../../../ReactInputComponents/src';
-import { Provider, Style } from './Dependency';
+import { Properties, Provider, Style } from './Dependency';
 import * as Model from './Model';
 
 export class App extends Component<any> {
   private readonly provider: Provider.Type;
+  private readonly properties: Properties.Type;
   private readonly style: Style.Type;
   private readonly subscription: Subscription;
 
   public constructor(props: any) {
     super(props);
     this.provider = new Provider.Self();
+    this.properties = new Properties.Self();
     this.style = new Style.Self();
     this.subscription = new Subscription();
   }
@@ -29,6 +31,7 @@ export class App extends Component<any> {
 
   public createInputComponents = (): JSX.Element[] => {
     let provider = this.provider;
+    let properties = this.properties;
     let style = this.style;
     let inputs = Model.Input.allInputs();
 
@@ -37,28 +40,43 @@ export class App extends Component<any> {
         let model = new InputCell.Dispatch.Model.Self(provider, v1);
         return new InputCell.Base.ViewModel.Self(provider, model);
       }))
-      .map(v => v.map(v1 => ({ key: v1.inputItem.id, viewModel: v1, style })))
+      .map(v => v.map(v1 => ({
+        key: v1.inputItem.id,
+        viewModel: v1,
+        properties,
+        style,
+      })))
       .map(v => v.map(v1 => <InputCell.Native.Component.Self {...v1}/>))
       .getOrElse([]);
   }
 
   public createInputList = (): JSX.Element => {
     let provider = this.provider;
-    let style = this.style;
     let inputs = Model.Input.allInputs();
     let model = new InputList.Dispatch.Model.Self(provider, inputs);
     let vm = new InputList.Base.ViewModel.Self(provider, model);
-    let props = { viewModel: vm, style };
+
+    let props = {
+      viewModel: vm,
+      properties: this.properties,
+      style: this.style,
+    };
+
     return <InputList.Native.Component.Self {...props}/>;
   }
 
   public createInputForm = (): JSX.Element => {
     let provider = this.provider;
-    let style = this.style;
     let header = Model.Input;
     let model = new InputForm.Dispatch.Model.Self(provider, header);
     let vm = new InputForm.Base.ViewModel.Self(provider, model);
-    let props = { viewModel: vm, style };
+
+    let props = {
+      viewModel: vm,
+      properties: this.properties,
+      style: this.style,
+    };
+
     this.bindInputConfirmation(vm);
     return <InputForm.Native.Component.Self {...props}/>;
   }

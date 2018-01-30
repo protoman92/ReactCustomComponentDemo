@@ -1,5 +1,4 @@
 import { Try } from 'javascriptutilities';
-import { StyleSheet } from 'react-native';
 import { DispatchReducer, ReduxStore as Store } from 'reactive-rx-redux-js';
 import { Data } from 'react-base-utilities-js';
 import { InputCell, InputForm, InputList } from './../../../ReactInputComponents/src';
@@ -9,14 +8,14 @@ export namespace Style {
   export interface Type extends InputForm.Native.Style.ProviderType {}
 
   export class Self implements Type {
-    public inputCell: InputCell.Native.Style.SelectorType;
-    public inputList: InputList.Native.Style.SelectorType;
-    public inputForm: InputForm.Native.Style.SelectorType;
+    public readonly inputCell: InputCell.Native.Style.SelectorType;
+    public readonly inputList: InputList.Native.Style.SelectorType;
+    public readonly inputForm: InputForm.Native.Style.SelectorType;
 
     public constructor() {
       this.inputCell = {
         style: (_input: Data.Input.Type): Try<InputCell.Native.Style.Type> => {
-          return Try.success(StyleSheet.flatten({
+          return Try.success<InputCell.Native.Style.Type>({
             backgroundColor: 'lightgray',
             color: 'black',
             height: 45,
@@ -24,47 +23,93 @@ export namespace Style {
             marginTop: 2.5,
             paddingLeft: 5,
             width: '100%',
-          }));
+          });
         },
       };
 
       this.inputList = {
         style: (_inputs: Data.Input.Type[]): Try<InputList.Native.Style.Type> => {
-          return Try.success(StyleSheet.flatten({
+          return Try.success<InputList.Native.Style.Type>({
             alignSelf: 'stretch',
-          }));
+          });
         },
       };
 
       this.inputForm = {
         containerStyle: (_header: Data.Input.Header): Try<InputForm.Native.Style.ContainerType> => {
-          return Try.success(StyleSheet.flatten({
+          return Try.success<InputForm.Native.Style.ContainerType>({
             left: 0,
             marginLeft: 5,
             marginRight: 5,
             position: 'absolute',
             right: 0,
-          }));
+          });
         },
 
         buttonStyle: (_header: Data.Input.Header): Try<InputForm.Native.Style.ButtonType> => {
-          return Try.success(StyleSheet.flatten({
+          return Try.success<InputForm.Native.Style.ButtonType>({
             backgroundColor: 'gray',
             height: 45,
             justifyContent: 'center',
             marginTop: 15,
             width: '100%',
-          }));
+          });
         },
 
         buttonTextStyle: (_header: Data.Input.Header): Try<InputForm.Native.Style.ButtonTextType> => {
-          return Try.success(StyleSheet.flatten({
+          return Try.success<InputForm.Native.Style.ButtonTextType>({
             color: 'white',
             textAlign: 'center',
             textAlignVertical: 'center',
             width: '100%',
-          }));
+          });
         }
+      };
+    }
+  }
+}
+
+export namespace Properties {
+  export interface Type extends InputForm.Native.Properties.ProviderType {}
+
+  export class Self implements Type {
+    public readonly inputCell: InputCell.Native.Properties.SelectorType;
+    public readonly inputList: InputList.Native.Properties.SelectorType;
+    public readonly inputForm: InputForm.Native.Properties.SelectorType;
+
+    public constructor() {
+      this.inputCell = {
+        properties: (input: Data.Input.Type): Try<InputCell.Native.Properties.Type> => {
+          return Try.success<InputCell.Native.Properties.Type>({
+            defaultValue: `This is a default value for ${input.id}`,
+            keyboardType: Data.InputType.NativeCommon.Case.NUMERIC,
+            placeholder: `Placeholder for ${input.id}`,
+            placeholderTextColor: 'red',
+
+            /// If implemented correctly, this style should be overridden.
+            style: {height: 1000},
+          });
+        },
+      };
+
+      this.inputList = {
+        properties: (_inputs: Data.Input.Type[]): Try<InputList.Native.Properties.Type> => {
+          return Try.success<InputList.Native.Properties.Type>({});
+        },
+      };
+
+      this.inputForm = {
+        containerProperties: (_header: Data.Input.Header): Try<InputForm.Native.Properties.ContainerType> => {
+          return Try.success<InputForm.Native.Properties.ContainerType>({});
+        },
+
+        buttonProperties: (_header: Data.Input.Header): Try<InputForm.Native.Properties.ButtonType> => {
+          return Try.success<InputForm.Native.Properties.ButtonType>({});
+        },
+
+        buttonTextProperties: (_header: Data.Input.Header): Try<InputForm.Native.Properties.ButtonTextType> => {
+          return Try.success<InputForm.Native.Properties.ButtonTextType>({});
+        },
       };
     }
   }
