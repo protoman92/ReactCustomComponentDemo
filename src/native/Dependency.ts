@@ -1,7 +1,13 @@
 import { Try } from 'javascriptutilities';
 import { DispatchReducer, ReduxStore as Store } from 'reactive-rx-redux-js';
 import { Data } from 'react-base-utilities-js';
-import { InputCell, InputForm, InputList } from './../../../ReactInputComponents/src';
+
+import {
+  InputCell,
+  InputForm,
+  InputList,
+} from './../../../ReactInputComponents/src';
+
 import * as Model from './Model';
 
 export namespace Style {
@@ -14,7 +20,7 @@ export namespace Style {
 
     public constructor() {
       this.inputCell = {
-        style: (_input: Data.Input.Type): Try<InputCell.Native.Style.Type> => {
+        style: (_input: Data.Input.Type) => {
           return Try.success<InputCell.Native.Style.Type>({
             backgroundColor: 'lightgray',
             color: 'black',
@@ -28,7 +34,7 @@ export namespace Style {
       };
 
       this.inputList = {
-        style: (_inputs: Data.Input.Type[]): Try<InputList.Native.Style.Type> => {
+        style: (_inputs: Data.Input.Type[]) => {
           return Try.success<InputList.Native.Style.Type>({
             alignSelf: 'stretch',
           });
@@ -36,7 +42,7 @@ export namespace Style {
       };
 
       this.inputForm = {
-        containerStyle: (_header: Data.Input.Header): Try<InputForm.Native.Style.ContainerType> => {
+        containerStyle: (_header: Data.Input.Header) => {
           return Try.success<InputForm.Native.Style.ContainerType>({
             left: 0,
             marginLeft: 5,
@@ -46,7 +52,7 @@ export namespace Style {
           });
         },
 
-        buttonStyle: (_header: Data.Input.Header): Try<InputForm.Native.Style.ButtonType> => {
+        buttonStyle: (_header: Data.Input.Header) => {
           return Try.success<InputForm.Native.Style.ButtonType>({
             backgroundColor: 'gray',
             height: 45,
@@ -56,7 +62,7 @@ export namespace Style {
           });
         },
 
-        buttonTextStyle: (_header: Data.Input.Header): Try<InputForm.Native.Style.ButtonTextType> => {
+        buttonTextStyle: (_header: Data.Input.Header) => {
           return Try.success<InputForm.Native.Style.ButtonTextType>({
             color: 'white',
             textAlign: 'center',
@@ -79,12 +85,16 @@ export namespace Properties {
 
     public constructor() {
       this.inputCell = {
-        properties: (input: Data.Input.Type): Try<InputCell.Native.Properties.Type> => {
+        properties: (input: Data.Input.Type) => {
+          let isPassword = input.id === Model.Input.password.id;
+          let secure = isPassword;
+
           return Try.success<InputCell.Native.Properties.Type>({
-            defaultValue: `This is a default value for ${input.id}`,
-            keyboardType: Data.InputType.NativeCommon.Case.NUMERIC,
+            keyboardType: Data.InputType.NativeCommon.Case.DEFAULT,
+            multiline: false,
             placeholder: `Placeholder for ${input.id}`,
             placeholderTextColor: 'red',
+            secureTextEntry: secure,
 
             /// If implemented correctly, this style should be overridden.
             style: {height: 1000},
@@ -93,21 +103,21 @@ export namespace Properties {
       };
 
       this.inputList = {
-        properties: (_inputs: Data.Input.Type[]): Try<InputList.Native.Properties.Type> => {
+        properties: (_inputs: Data.Input.Type[]) => {
           return Try.success<InputList.Native.Properties.Type>({});
         },
       };
 
       this.inputForm = {
-        containerProperties: (_header: Data.Input.Header): Try<InputForm.Native.Properties.ContainerType> => {
+        containerProperties: (_header: Data.Input.Header) => {
           return Try.success<InputForm.Native.Properties.ContainerType>({});
         },
 
-        buttonProperties: (_header: Data.Input.Header): Try<InputForm.Native.Properties.ButtonType> => {
+        buttonProperties: (_header: Data.Input.Header) => {
           return Try.success<InputForm.Native.Properties.ButtonType>({});
         },
 
-        buttonTextProperties: (_header: Data.Input.Header): Try<InputForm.Native.Properties.ButtonTextType> => {
+        buttonTextProperties: (_header: Data.Input.Header) => {
           return Try.success<InputForm.Native.Properties.ButtonTextType>({});
         },
       };
