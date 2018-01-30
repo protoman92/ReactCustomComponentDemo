@@ -6,7 +6,7 @@ import {
   InputCell,
   InputForm,
   InputList,
-} from './../../../ReactInputComponents/src';
+} from 'react-basic-input-components';
 
 import * as Model from './Model';
 

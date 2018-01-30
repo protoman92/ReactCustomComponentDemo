@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Try } from 'javascriptutilities';
-import { InputCell, InputForm, InputList } from './../../../ReactInputComponents/src';
+import { InputCell, InputForm, InputList } from 'react-basic-input-components';
 import { Properties, Provider, Style } from './Dependency';
 import * as Model from './Model';
 
@@ -15,19 +15,15 @@ export class App extends Component<any> {
 
   public constructor(props: any) {
     super(props);
+
+    /// Initialize all dependencies here. This is a wrapper component anyway.
     this.provider = new Provider.Self();
     this.properties = new Properties.Self();
     this.style = new Style.Self();
     this.subscription = new Subscription();
   }
 
-  public componentWillMount(): void {
-    // this.provider.store.stateStream()
-    //   .distinctUntilChanged()
-    //   .logNext()
-    //   .subscribe()
-    //   .toBeDisposedBy(this.subscription);
-  }
+  public componentWillMount(): void {}
 
   public createInputComponents = (): JSX.Element[] => {
     let provider = this.provider;
