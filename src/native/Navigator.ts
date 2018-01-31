@@ -2,6 +2,7 @@ import { NavigationScreenProp } from 'react-navigation';
 import { Try } from 'javascriptutilities';
 import { MVVM } from 'react-base-utilities-js';
 import * as Input from './Input';
+import * as PhoneInput from './PhoneInput';
 import * as Navigation from './Navigation';
 
 /**
@@ -42,6 +43,9 @@ export class Self implements Type {
     let style = props.style;
 
     if (viewModel instanceof Input.ViewModel.Self) {
+      let navProps = { viewModel, properties, style };
+      navigation.navigate(path, navProps);
+    } else if (viewModel instanceof PhoneInput.ViewModel.Self) {
       let navProps = { viewModel, properties, style };
       navigation.navigate(path, navProps);
     } else {

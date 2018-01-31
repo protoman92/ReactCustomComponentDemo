@@ -3,23 +3,14 @@ import { Component as BaseComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationScreenProp as SCProp } from 'react-navigation';
 import { StateType } from 'type-safe-state-js';
-import { Data, MVVM } from 'react-base-utilities-js';
-import { InputForm } from 'react-basic-input-components';
-import { Provider as BaseProvider } from './../Dependency';
-import * as AppData from './../Model';
+import { MVVM } from 'react-base-utilities-js';
+import { PhoneInput } from './../../../ReactPhoneInputComponents/src';
+import { Provider } from './../Dependency';
 import * as Navigator from './Navigator';
 import * as Screen from './Screen';
 
-export namespace Provider {
-  export interface Type extends BaseProvider.Type {}
-}
-
 export namespace Model {
-  export interface ProviderType {
-    inputScreen_model(): Type;
-  }
-
-  export interface Type extends InputForm.Base.Model.ProviderType {}
+  export interface Type extends PhoneInput.Base.Model.ProviderType {}
 
   export class Self implements Type {
     private readonly provider: Provider.Type;
@@ -28,27 +19,27 @@ export namespace Model {
       this.provider = provider;
     }
 
-    public inputForm_model(header: Data.Input.Header): InputForm.Base.Model.Type {
-      return new InputForm.Dispatch.Model.Self(this.provider, header);
+    public phoneInput_model(id: string): PhoneInput.Base.Model.Type {
+      return new PhoneInput.Dispatch.Model.Self(this.provider, id);
     }
   }
 }
 
 export namespace ViewModel {
-  export interface ProviderType {
-    inputScreen_viewModel(): Type;
-  }
-
   export interface Type extends
     MVVM.ViewModel.Type,
-    InputForm.Base.ViewModel.ProviderType {}
+    PhoneInput.Base.ViewModel.ProviderType {}
+
+  export interface ProviderType {
+    phoneInputScreen_viewModel(): Type;
+  }
 
   export class Self implements Type {
     private readonly provider: Provider.Type;
     private readonly model: Model.Type;
 
-    public get screen(): MVVM.Navigation.Screen.BaseType {
-      return Screen.INPUT;
+    public get screen(): Readonly<MVVM.Navigation.Screen.BaseType> {
+      return Screen.PHONE;
     }
 
     public constructor(provider: Provider.Type, model: Model.Type) {
@@ -59,9 +50,9 @@ export namespace ViewModel {
     public initialize = (): void => {};
     public deinitialize = (): void => {};
 
-    public inputForm_viewModel(header: Data.Input.Header): InputForm.Base.ViewModel.Type {
-      let model = this.model.inputForm_model(header);
-      return new InputForm.Base.ViewModel.Self(this.provider, model);
+    public phoneInput_viewModel(id: string): PhoneInput.Base.ViewModel.Type {
+      let model = this.model.phoneInput_model(id);
+      return new PhoneInput.Base.ViewModel.Self(this.provider, model);
     }
   }
 }
@@ -83,26 +74,19 @@ export namespace Component {
 
     public constructor(props: Props.Type) {
       super(props);
-      let navState = props.navigation.state;
-      this.viewModel = navState.params.viewModel;
-    }
-
-    public createInputForm = (): JSX.Element => {
-      let props = this.props;
-      let navState = props.navigation.state.params;
-      let vm = this.viewModel.inputForm_viewModel(AppData.Input);
-
-      let formProps = {
-        viewModel: vm,
-        properties: navState.properties,
-        style: navState.style,
-      };
-
-      return <InputForm.Native.Component.Self {...formProps}/>;
+      this.viewModel = props.navigation.state.params.viewModel;
     }
 
     public render(): JSX.Element {
-      return (<View style={styles.container}>{this.createInputForm()}</View>);
+      let params = this.props.navigation.state.params;
+      let style = params.style;
+      let properties = params.properties;
+      let vm = this.viewModel.phoneInput_viewModel('');
+      let phoneProps = { viewModel: vm, properties, style };
+
+      return <View style={styles.container}>
+        <PhoneInput.Native.Component.Self {...phoneProps}/>
+      </View>;
     }
   }
 }
@@ -111,7 +95,5 @@ let styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
+  }
 });

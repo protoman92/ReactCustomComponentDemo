@@ -1,4 +1,5 @@
-import { Properties, Style } from './Dependency';
+import * as Properties from './Properties';
+import * as Style from './Style';
 
 export namespace Props {
   /**

@@ -2,7 +2,9 @@ import * as React from 'react';
 import { Component as BaseComponent } from 'react';
 import { NavigationScreenProp } from 'react-navigation';
 import { StateType } from 'type-safe-state-js';
-import { Properties, Provider, Style } from './Dependency';
+import { Provider } from './../Dependency';
+import * as Properties from './Properties';
+import * as Style from './Style';
 import * as Home from './Home';
 import * as Navigator from './Navigator';
 
