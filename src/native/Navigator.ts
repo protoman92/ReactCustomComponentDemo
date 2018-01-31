@@ -1,9 +1,31 @@
 import { NavigationScreenProp } from 'react-navigation';
+import { Try } from 'javascriptutilities';
 import { MVVM } from 'react-base-utilities-js';
 import * as Input from './Input';
-import * as Screen from './Screen';
+import * as Navigation from './Navigation';
 
-export interface Type extends MVVM.Navigator.Type {}
+/**
+ * Params for navigator. We add an additional property (viewModel) so that we
+ * can pass it, along with other dependencies, to the incoming component.
+ * @extends {Navigation.Props.Type} Navigation props extension.
+ * @template VM View model type.
+ */
+export interface ParamsType<VM> extends Navigation.Props.Type {
+  viewModel: VM;
+}
+
+/**
+ * When a state is passed to an incoming component by the navigator, we cannot
+ * access it directly. It is instead nested in an object with a params key.
+ * @template P State generics.
+ */
+export interface StateType<P> {
+  params: P;
+}
+
+export type Params = ParamsType<MVVM.ViewModel.Type>;
+
+export interface Type extends MVVM.Navigator.Type<Params> {}
 
 export class Self implements Type {
   private readonly navigation: NavigationScreenProp<any, any>;
@@ -12,16 +34,18 @@ export class Self implements Type {
     this.navigation = navigation;
   }
 
-  public navigate(vm: MVVM.ViewModel.Type, info: MVVM.Navigation.Info.Type): void {
+  public navigate(props: Params, info: MVVM.Navigation.Info.Type): void {
     let navigation = this.navigation;
+    let viewModel = props.viewModel;
+    let path = Try.unwrap(viewModel.screen).map(v => v.id).getOrElse('');
+    let properties = props.properties;
+    let style = props.style;
 
-    switch (true) {
-      case vm instanceof Input.ViewModel.Self:
-        navigation.navigate(Screen.INPUT.id);
-        break;
-
-      default:
-        throw new Error(`Unhandled navigation ${info}`);
+    if (viewModel instanceof Input.ViewModel.Self) {
+      let navProps = { viewModel, properties, style };
+      navigation.navigate(path, navProps);
+    } else {
+      throw new Error(`Unhandled navigation ${info}`);
     }
   }
 

@@ -7,6 +7,7 @@ import { MVVM } from 'react-base-utilities-js';
 import { Properties, Provider as BaseProvider, Style } from './Dependency';
 import * as Navigator from './Navigator';
 import * as InputScreen from './Input';
+import * as Navigation from './Navigation';
 import * as Screen from './Screen';
 
 export namespace Provider {
@@ -15,16 +16,16 @@ export namespace Provider {
 
 export namespace ViewModel {
   export interface Type extends MVVM.ViewModel.Type, InputScreen.ViewModel.ProviderType {
-    triggerGoToInputScreen(): void;
+    triggerGoToInputScreen(props: Navigation.Props.Type): void;
   }
 
   export class Self implements Type {
     private readonly provider: Provider.Type;
     private readonly navigator: Navigator.Type;
-    private readonly goToInputScreenTrigger: Subject<void>;
+    private readonly goToInputScreenTrigger: Subject<Navigation.Props.Type>;
     private readonly subscription: Subscription;
 
-    public get screen(): Readonly<MVVM.Navigation.Screen.Type> {
+    public get screen(): Readonly<MVVM.Navigation.Screen.BaseType> {
       return Screen.HOME;
     }
 
@@ -39,7 +40,7 @@ export namespace ViewModel {
       let subscription = this.subscription;
 
       this.goToInputScreenTrigger
-        .doOnNext(() => this.goToInputScreen())
+        .doOnNext(v => this.goToInputScreen(v))
         .subscribe()
         .toBeDisposedBy(subscription);
     }
@@ -54,18 +55,19 @@ export namespace ViewModel {
       return new InputScreen.ViewModel.Self(provider, model);
     }
 
-    public triggerGoToInputScreen = (): void => {
-      return this.goToInputScreenTrigger.next();
+    public triggerGoToInputScreen = (props: Navigation.Props.Type): void => {
+      return this.goToInputScreenTrigger.next(props);
     }
 
-    private goToInputScreen = (): void => {
+    private goToInputScreen = (props: Navigation.Props.Type): void => {
       let info: MVVM.Navigation.Info.Type = {
         prevScreen: this.screen,
         intent: { id: 'goToInputScreen' },
       };
 
       let vm = this.inputScreen_viewModel();
-      this.navigator.navigate(vm, info);
+      let params = { ...props, viewModel: vm };
+      this.navigator.navigate(params, info);
     }
   }
 }
@@ -96,7 +98,9 @@ export namespace Component {
     }
 
     private goToInputScreen = (): void => {
-      this.viewModel.triggerGoToInputScreen();
+      let props = this.props;
+      let navProps = { properties: props.properties, style: props.style };
+      this.viewModel.triggerGoToInputScreen(navProps);
     }
 
     public render(): JSX.Element {
