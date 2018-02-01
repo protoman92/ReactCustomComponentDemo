@@ -89,13 +89,13 @@ export namespace Component {
 
     public createInputForm = (): JSX.Element => {
       let props = this.props;
-      let navState = props.navigation.state.params;
+      let params = props.navigation.state.params;
       let vm = this.viewModel.inputForm_viewModel(AppData.Input);
 
-      let formProps = {
+      let formProps: InputForm.Native.Component.Props.Type = {
         viewModel: vm,
-        properties: navState.properties,
-        style: navState.style,
+        propertiesProvider: params.propertiesProvider,
+        styleProvider: params.styleProvider,
       };
 
       return <InputForm.Native.Component.Self {...formProps}/>;

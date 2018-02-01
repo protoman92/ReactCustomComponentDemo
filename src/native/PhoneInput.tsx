@@ -79,10 +79,13 @@ export namespace Component {
 
     public render(): JSX.Element {
       let params = this.props.navigation.state.params;
-      let style = params.style;
-      let properties = params.properties;
-      let vm = this.viewModel.phoneInput_viewModel('');
-      let phoneProps = { viewModel: vm, properties, style };
+      let vm = this.viewModel.phoneInput_viewModel(Screen.PHONE.id);
+
+      let phoneProps: PhoneInput.Native.Component.Props.Type = {
+        viewModel: vm,
+        propertiesProvider: params.propertiesProvider,
+        styleProvider: params.styleProvider,
+      };
 
       return <View style={styles.container}>
         <PhoneInput.Native.Component.Self {...phoneProps}/>

@@ -37,8 +37,8 @@ export namespace Component {
 
       let homeProps: Home.Component.Props.Type = {
         viewModel: vm,
-        style: this.style,
-        properties: this.properties,
+        styleProvider: this.style,
+        propertiesProvider: this.properties,
       };
 
       return <Home.Component.Self {...homeProps}/>;

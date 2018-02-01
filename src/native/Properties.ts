@@ -43,14 +43,6 @@ export class Self implements Type {
       containerProperties: (_header: Data.Input.Header) => {
         return Try.success<InputForm.Native.Properties.ContainerType>({});
       },
-
-      buttonProperties: (_header: Data.Input.Header) => {
-        return Try.success<InputForm.Native.Properties.ButtonType>({});
-      },
-
-      buttonTextProperties: (_header: Data.Input.Header) => {
-        return Try.success<InputForm.Native.Properties.ButtonTextType>({});
-      },
     };
 
     this.phoneInput = {

@@ -90,7 +90,7 @@ export namespace ViewModel {
       this.navigator.navigate(params, info);
     }
 
-    public triggerGoToPhoneInputScreen = (props: Navigation.Props.Type): void => { 
+    public triggerGoToPhoneInputScreen = (props: Navigation.Props.Type): void => {
       return this.goToPhoneInputScreenTrigger.next(props);
     }
 
@@ -110,8 +110,8 @@ export namespace ViewModel {
 export namespace Component {
   export namespace Props {
     export interface Type {
-      properties: Properties.Type;
-      style: Style.Type;
+      propertiesProvider: Properties.Type;
+      styleProvider: Style.Type;
       viewModel: ViewModel.Type;
     }
   }
@@ -134,13 +134,23 @@ export namespace Component {
 
     private goToInputScreen = (): void => {
       let props = this.props;
-      let navProps = { properties: props.properties, style: props.style };
+
+      let navProps: Navigation.Props.Type = {
+        propertiesProvider: props.propertiesProvider,
+        styleProvider: props.styleProvider,
+      };
+
       this.viewModel.triggerGoToInputScreen(navProps);
     }
 
     private goToPhoneInputScreen = (): void => {
       let props = this.props;
-      let navProps = { properties: props.properties, style: props.style };
+
+      let navProps: Navigation.Props.Type = {
+        propertiesProvider: props.propertiesProvider,
+        styleProvider: props.styleProvider,
+      };
+
       this.viewModel.triggerGoToPhoneInputScreen(navProps);
     }
 

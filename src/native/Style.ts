@@ -1,7 +1,9 @@
 import { Try } from 'javascriptutilities';
 import { Data } from 'react-base-utilities-js';
+import { TouchableButton } from 'react-native-basic-components';
 import { InputCell, InputForm, InputList } from 'react-basic-input-components';
 import { PhoneInput } from 'react-phone-input-components';
+import * as Screen from './Screen';
 
 export interface Type extends
   InputForm.Native.Style.ProviderType,
@@ -12,6 +14,7 @@ export class Self implements Type {
   public readonly inputList: InputList.Native.Style.SelectorType;
   public readonly inputForm: InputForm.Native.Style.SelectorType;
   public readonly phoneInput: PhoneInput.Native.Style.SelectorType;
+  public readonly touchableButton: TouchableButton.Style.SelectorType;
 
   public constructor() {
     this.inputCell = {
@@ -46,25 +49,6 @@ export class Self implements Type {
           right: 0,
         });
       },
-
-      buttonStyle: (_header: Data.Input.Header) => {
-        return Try.success<InputForm.Native.Style.ButtonType>({
-          backgroundColor: 'gray',
-          height: height.mid,
-          justifyContent: 'center',
-          marginTop: spacing.large,
-          width: '100%',
-        });
-      },
-
-      buttonTextStyle: (_header: Data.Input.Header) => {
-        return Try.success<InputForm.Native.Style.ButtonTextType>({
-          color: 'white',
-          textAlign: 'center',
-          textAlignVertical: 'center',
-          width: '100%',
-        });
-      }
     };
 
     this.phoneInput = {
@@ -133,18 +117,42 @@ export class Self implements Type {
           marginTop: spacing.small,
         });
       },
+    };
 
-      countryCodeItemContainer: (_id: string, _cc: Data.CountryCode.Type) => {
-        return Try.success<PhoneInput.Native.Style.CountryCodeItemContainerType>({
-          backgroundColor: 'white',
-          height: height.small,
-        });
+    this.touchableButton = {
+      buttonContainer: (id: string) => {
+        switch (id) {
+          case Screen.PHONE.id:
+            return Try.success<TouchableButton.Style.ButtonContainerType>({
+              backgroundColor: 'white',
+              flexDirection: 'column',
+              height: height.small,
+            });
+
+          default:
+            return Try.success<TouchableButton.Style.ButtonContainerType>({
+              backgroundColor: 'gray',
+              height: height.mid,
+              justifyContent: 'center',
+              marginTop: spacing.large,
+              width: '100%',
+            });
+        }
       },
 
-      countryCodeItem: (_id: string, _cc: Data.CountryCode.Type) => {
-        return Try.success<PhoneInput.Native.Style.CountryCodeItemType>({
-          paddingLeft: spacing.small,
-        });
+      buttonText: (id: string) => {
+        switch (id) {
+          case Screen.PHONE.id:
+            return Try.success<TouchableButton.Style.ButtonTextType>({
+              paddingLeft: spacing.small,
+              textAlign: 'left',
+            });
+
+          default:
+            return Try.success<TouchableButton.Style.ButtonTextType>({
+              color: 'white',
+            });
+        }
       },
     };
   }

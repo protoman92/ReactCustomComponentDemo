@@ -9,12 +9,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@types/react-native": "0.52.5",
     "@types/react-navigation": "^1.0.30",
-    "react-base-utilities-js": "^1.0.0",
     "react-basic-input-components": "^1.0.0",
-    "react-error-display-components": "^1.0.3",
-    "react-native": "0.52.2",
     "react-navigation": "^1.0.0-beta.27",
     "react-phone-input-components": "^1.0.0"
   },

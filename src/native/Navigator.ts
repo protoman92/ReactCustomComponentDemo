@@ -39,14 +39,22 @@ export class Self implements Type {
     let navigation = this.navigation;
     let viewModel = props.viewModel;
     let path = Try.unwrap(viewModel.screen).map(v => v.id).getOrElse('');
-    let properties = props.properties;
-    let style = props.style;
 
     if (viewModel instanceof Input.ViewModel.Self) {
-      let navProps = { viewModel, properties, style };
+      let navProps: ParamsType<Input.ViewModel.Type> = {
+        viewModel,
+        propertiesProvider: props.propertiesProvider,
+        styleProvider: props.styleProvider,
+      };
+
       navigation.navigate(path, navProps);
     } else if (viewModel instanceof PhoneInput.ViewModel.Self) {
-      let navProps = { viewModel, properties, style };
+      let navProps: ParamsType<PhoneInput.ViewModel.Type> = {
+        viewModel,
+        propertiesProvider: props.propertiesProvider,
+        styleProvider: props.styleProvider,
+      };
+
       navigation.navigate(path, navProps);
     } else {
       throw new Error(`Unhandled navigation ${info}`);

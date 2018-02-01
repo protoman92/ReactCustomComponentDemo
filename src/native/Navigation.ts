@@ -7,7 +7,7 @@ export namespace Props {
    * props will be delivered to the incoming component.
    */
   export interface Type {
-    properties: Properties.Type;
-    style: Style.Type;
+    propertiesProvider: Properties.Type;
+    styleProvider: Style.Type;
   }
 }
