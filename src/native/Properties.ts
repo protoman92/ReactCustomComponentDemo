@@ -1,14 +1,7 @@
 import { Try } from 'javascriptutilities';
 import { Data } from 'react-base-utilities-js';
-
-import {
-  InputCell,
-  InputForm,
-  InputList,
-} from 'react-basic-input-components';
-
-import { PhoneInput } from './../../../ReactPhoneInputComponents/src';
-
+import { InputCell, InputForm, InputList } from 'react-basic-input-components';
+import { PhoneInput } from 'react-phone-input-components';
 import * as Model from './../Model';
 
 export interface Type extends
@@ -61,7 +54,40 @@ export class Self implements Type {
     };
 
     this.phoneInput = {
+      mainContainer: (_id) => Try.failure(''),
+      inputContainer: (_id) => Try.failure(''),
+      extensionSearchContainer: (_id) => Try.failure(''),
+      countryCodeItem: (_id, _cc) => Try.failure(''),
+      countryCodeItemContainer: (_id, _cc) => Try.failure(''),
 
+      extensionInputField: (_id: string) => {
+        return Try.success({
+          placeholder: 'Ext.',
+          placeholderTextColor: 'gray',
+          underlineColorAndroid: 'rgba(0,0,0,0)',
+        });
+      },
+
+      extensionQueryField: (_id: string) => {
+        return Try.success({
+          placeholder: 'Search your country code',
+          placeholderTextColor: 'gray',
+          underlineColorAndroid: 'rgba(0,0,0,0)',
+        });
+      },
+
+      phoneInputField: (_id: string) => {
+        return Try.success({
+          placeholder: 'Phone number',
+          placeholderTextColor: 'gray',
+          underlineColorAndroid: 'rgba(0,0,0,0)',
+        });
+      },
+
+      selectableCountryCodeList: (_id: string) => Try.success({
+        showsHorizontalScrollIndicator: false,
+        showsVerticalScrollIndicator: false,
+      }),
     };
   }
 }

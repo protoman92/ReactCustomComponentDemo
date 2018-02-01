@@ -28,7 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected String getJSMainModuleName() {
-      return "dist/ReactCustomComponentDemo/src/native/index";
+      return "dist/src/native/index";
     }
   };
 

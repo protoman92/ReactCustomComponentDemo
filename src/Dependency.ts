@@ -4,7 +4,7 @@ import { DispatchReducer, ReduxStore as Store } from 'reactive-rx-redux-js';
 import { Data } from 'react-base-utilities-js';
 import { InputCell, InputForm } from 'react-basic-input-components';
 import { ErrorDisplay } from 'react-error-display-components';
-import { PhoneInput } from './../../ReactPhoneInputComponents/src';
+import { PhoneInput } from 'react-phone-input-components';
 import Codes from './countryCodes';
 
 import * as Model from './Model';
@@ -56,7 +56,7 @@ export namespace Provider {
         }),
 
         error: ErrorDisplay.Dispatch.Action.createDefault(),
-        phoneInput: PhoneInput.Dispatch.Action.createDefault(),
+        phoneInput: PhoneInput.Dispatch.Action.createDefault(''),
       };
 
       let reducerError = ErrorDisplay.Dispatch.Reducer.createDefault();
@@ -64,6 +64,7 @@ export namespace Provider {
       let reducePhoneInput = PhoneInput.Dispatch.Reducer.createDefault();
 
       let reducer: DispatchReducer<any> = (state, action) => {
+        console.log(state, action);
         switch (true) {
           case ErrorDisplay.Dispatch.Action.isInstance(action):
             return reducerError(state, action);

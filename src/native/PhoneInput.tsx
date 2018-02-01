@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { NavigationScreenProp as SCProp } from 'react-navigation';
 import { StateType } from 'type-safe-state-js';
 import { MVVM } from 'react-base-utilities-js';
-import { PhoneInput } from './../../../ReactPhoneInputComponents/src';
+import { PhoneInput } from 'react-phone-input-components';
 import { Provider } from './../Dependency';
 import * as Navigator from './Navigator';
 import * as Screen from './Screen';
@@ -92,8 +92,5 @@ export namespace Component {
 }
 
 let styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  }
+  container: { flex: 1, justifyContent: 'center' },
 });

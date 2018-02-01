@@ -1,13 +1,7 @@
 import { Try } from 'javascriptutilities';
 import { Data } from 'react-base-utilities-js';
-
-import {
-  InputCell,
-  InputForm,
-  InputList,
-} from 'react-basic-input-components';
-
-import { PhoneInput } from './../../../ReactPhoneInputComponents/src';
+import { InputCell, InputForm, InputList } from 'react-basic-input-components';
+import { PhoneInput } from 'react-phone-input-components';
 
 export interface Type extends
   InputForm.Native.Style.ProviderType,
@@ -25,10 +19,10 @@ export class Self implements Type {
         return Try.success<InputCell.Native.Style.Type>({
           backgroundColor: 'lightgray',
           color: 'black',
-          height: 45,
-          marginBottom: 2.5,
-          marginTop: 2.5,
-          paddingLeft: 5,
+          height: height.mid,
+          marginBottom: spacing.smaller,
+          marginTop: spacing.smaller,
+          paddingLeft: spacing.small,
           width: '100%',
         });
       },
@@ -46,8 +40,8 @@ export class Self implements Type {
       containerStyle: (_header: Data.Input.Header) => {
         return Try.success<InputForm.Native.Style.ContainerType>({
           left: 0,
-          marginLeft: 10,
-          marginRight: 10,
+          marginLeft: spacing.mid,
+          marginRight: spacing.mid,
           position: 'absolute',
           right: 0,
         });
@@ -56,9 +50,9 @@ export class Self implements Type {
       buttonStyle: (_header: Data.Input.Header) => {
         return Try.success<InputForm.Native.Style.ButtonType>({
           backgroundColor: 'gray',
-          height: 45,
+          height: height.mid,
           justifyContent: 'center',
-          marginTop: 15,
+          marginTop: spacing.large,
           width: '100%',
         });
       },
@@ -74,53 +68,96 @@ export class Self implements Type {
     };
 
     this.phoneInput = {
-      containerStyle: (_id: string) => {
+      mainContainer: (_id: string) => {
         return Try.success<PhoneInput.Native.Style.ContainerType>({
-          backgroundColor: 'black',
-          height: '50%',
-          left: 10,
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          position: 'absolute',
-          right: 10,
+          backgroundColor: 'lightgray',
+          borderRadius: spacing.smaller,
+          height: '75%',
+          marginLeft: spacing.small,
+          marginRight: spacing.small,
+          flexDirection: 'column',
         });
       },
 
-      inputContainerStyle: (_id: string) => {
+      inputContainer: (_id: string) => {
         return Try.success<PhoneInput.Native.Style.InputContainerType>({
-          flexDirection: 'row',
-          height: 45,
-          left: 5,
-          position: 'absolute',
-          right: 5,
-          top: 5,
+          height: height.mid,
+          marginLeft: spacing.small,
+          marginTop: spacing.small,
+          marginRight: spacing.small,
         });
       },
 
-      extensionInputStyle: (_id: string) => {
+      extensionInputField: (_id: string) => {
         return Try.success<PhoneInput.Native.Style.ExtensionInputType>({
-          backgroundColor: 'lightgray',
-          flexGrow: 1,
-          paddingLeft: 5,
-          paddingRight: 5,
-          textAlign: 'center',
+          backgroundColor: 'white',
+          borderRadius: spacing.smaller,
+          paddingLeft: spacing.small,
+          paddingRight: spacing.small,
         });
       },
 
-      phoneInputStyle: (_id: string) => {
+      phoneInputField: (_id: string) => {
         return Try.success<PhoneInput.Native.Style.PhoneInputType>({
-          backgroundColor: 'lightgray',
-          flexGrow: 4,
-          marginLeft: 5,
-          paddingLeft: 5,
-          paddingRight: 5,
-          textAlign: 'center',
+          backgroundColor: 'white',
+          borderRadius: spacing.smaller,
+          marginLeft: spacing.small,
+          paddingLeft: spacing.small,
+          paddingRight: spacing.small,
         });
       },
 
-      extensionQueryStyle: (_id: string) => {
-        return Try.success<PhoneInput.Native.Style.ExtensionQueryType>({});
+      extensionSearchContainer: (_id: string) => {
+        return Try.success<PhoneInput.Native.Style.ExtensionSearchContainerType>({
+          marginBottom: spacing.small,
+          marginLeft: spacing.small,
+          marginRight: spacing.small,
+          marginTop: spacing.small,
+        });
+      },
+
+      extensionQueryField: (_id: string) => {
+        return Try.success<PhoneInput.Native.Style.ExtensionQueryType>({
+          backgroundColor: 'white',
+          borderRadius: spacing.smaller,
+          height: height.mid,
+          paddingLeft: spacing.small,
+          paddingRight: spacing.small,
+        });
+      },
+
+      selectableCountryCodeList: (_id: string) => {
+        return Try.success<PhoneInput.Native.Style.SelectableCountryCodeListType>({
+          backgroundColor: 'lightgray',
+          borderRadius: spacing.smaller,
+          marginTop: spacing.small,
+        });
+      },
+
+      countryCodeItemContainer: (_id: string, _cc: Data.CountryCode.Type) => {
+        return Try.success<PhoneInput.Native.Style.CountryCodeItemContainerType>({
+          backgroundColor: 'white',
+          height: height.small,
+        });
+      },
+
+      countryCodeItem: (_id: string, _cc: Data.CountryCode.Type) => {
+        return Try.success<PhoneInput.Native.Style.CountryCodeItemType>({
+          paddingLeft: spacing.small,
+        });
       },
     };
   }
 }
+
+let height = {
+  small: 30,
+  mid: 40,
+};
+
+let spacing = {
+  smaller: 3,
+  small: 6,
+  mid: 10,
+  large: 15,
+};
