@@ -49,8 +49,6 @@ export class Self implements Type {
       mainContainer: (_id) => Try.failure(''),
       inputContainer: (_id) => Try.failure(''),
       extensionSearchContainer: (_id) => Try.failure(''),
-      countryCodeItem: (_id, _cc) => Try.failure(''),
-      countryCodeItemContainer: (_id, _cc) => Try.failure(''),
 
       extensionInputField: (_id: string) => {
         return Try.success({

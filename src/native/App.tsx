@@ -11,7 +11,7 @@ import * as Navigator from './Navigator';
 export namespace Component {
   export namespace Props {
     export interface Type {
-      navigation: NavigationScreenProp<StateType<any>, any>;
+      readonly navigation: NavigationScreenProp<StateType<any>, any>;
     }
   }
 

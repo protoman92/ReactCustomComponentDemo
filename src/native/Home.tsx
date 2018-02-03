@@ -33,7 +33,7 @@ export namespace ViewModel {
     private readonly goToPhoneInputScreenTrigger: Subject<Navigation.Props.Type>;
     private readonly subscription: Subscription;
 
-    public get screen(): Readonly<MVVM.Navigation.Screen.BaseType> {
+    public get screen(): MVVM.Navigation.Screen.BaseType {
       return Screen.HOME;
     }
 

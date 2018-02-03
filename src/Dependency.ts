@@ -64,7 +64,6 @@ export namespace Provider {
       let reducePhoneInput = PhoneInput.Dispatch.Reducer.createDefault();
 
       let reducer: DispatchReducer<any> = (state, action) => {
-        console.log(state, action);
         switch (true) {
           case ErrorDisplay.Dispatch.Action.isInstance(action):
             return reducerError(state, action);

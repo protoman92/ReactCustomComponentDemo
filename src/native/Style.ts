@@ -125,7 +125,6 @@ export class Self implements Type {
           case Screen.PHONE.id:
             return Try.success<TouchableButton.Style.ButtonContainerType>({
               backgroundColor: 'white',
-              flexDirection: 'column',
               height: height.small,
             });
 
@@ -133,9 +132,7 @@ export class Self implements Type {
             return Try.success<TouchableButton.Style.ButtonContainerType>({
               backgroundColor: 'gray',
               height: height.mid,
-              justifyContent: 'center',
               marginTop: spacing.large,
-              width: '100%',
             });
         }
       },

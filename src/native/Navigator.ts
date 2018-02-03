@@ -12,7 +12,7 @@ import * as Navigation from './Navigation';
  * @template VM View model type.
  */
 export interface ParamsType<VM> extends Navigation.Props.Type {
-  viewModel: VM;
+  readonly viewModel: VM;
 }
 
 /**
@@ -21,7 +21,7 @@ export interface ParamsType<VM> extends Navigation.Props.Type {
  * @template P State generics.
  */
 export interface StateType<P> {
-  params: P;
+  readonly params: P;
 }
 
 export type Params = ParamsType<MVVM.ViewModel.Type>;

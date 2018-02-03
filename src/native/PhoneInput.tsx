@@ -65,7 +65,7 @@ export namespace Component {
      * This props type has to conform to react-navigation's requirements.
      */
     export interface Type {
-      navigation: SCProp<Navigator.StateType<NavStateParams>, any>;
+      readonly navigation: SCProp<Navigator.StateType<NavStateParams>, any>;
     }
   }
 
