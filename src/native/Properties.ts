@@ -46,10 +46,6 @@ export class Self implements Type {
     };
 
     this.phoneInput = {
-      mainContainer: (_id) => Try.failure(''),
-      inputContainer: (_id) => Try.failure(''),
-      extensionSearchContainer: (_id) => Try.failure(''),
-
       extensionInputField: (_id: string) => {
         return Try.success({
           placeholder: 'Ext.',
